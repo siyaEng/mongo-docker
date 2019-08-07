@@ -1,0 +1,20 @@
+version: '2'
+services:
+  master:
+    container_name: ${PROJECT_NAME}-master
+    image: mongo:3.4
+    volumes:
+      - /data/mongodb/${PROJECT_NAME}/master:/data/db
+    command: mongod --dbpath /data/db --master
+    ports:
+      - 27066:27017
+  slaver:
+    container_name: ${PROJECT_NAME}-slaver
+    image: mongo:3.4
+    volumes:
+      - /data/mongodb/${PROJECT_NAME}/slaver:/data/db
+    command: mongod --dbpath /data/db --slave --source master:27017
+    links:
+      - master
+    ports:
+      - 27067:27017

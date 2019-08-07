@@ -1,0 +1,30 @@
+version: '2'
+services:
+  master:
+    container_name: ${PROJECT_NAME}-replSet-rs1
+    image: mongo:3.4
+    volumes:
+      - /data/mongodb/${PROJECT_NAME}/replset2/rs1:/data/db
+    command: mongod --dbpath /data/db --logpath /var/log/mongodb/mongo.log --replSet service_classtool --oplogSize 128
+    ports:
+      - 27071:27017
+  slave:
+    container_name: ${PROJECT_NAME}-replSet-rs2
+    image: mongo:3.4
+    volumes:
+      - /data/mongodb/${PROJECT_NAME}/replset2/rs2:/data/db
+    command: mongod --dbpath /data/db --logpath /var/log/mongodb/mongo.log --replSet service_classtool --oplogSize 128
+    ports:
+      - 27072:27017
+  myarbiter:
+    container_name: ${PROJECT_NAME}-replSet-rs3
+    image: mongo:3.4
+    volumes:
+      - /data/mongodb/${PROJECT_NAME}/replset2/rs3:/data/db
+    command: mongod --dbpath /data/db --logpath /var/log/mongodb/mongo.log --replSet service_classtool --smallfiles --oplogSize 128
+    ports:
+      - 27073:27017
+networks:
+  default:
+    external:
+      name: docker-project_default

@@ -1,0 +1,26 @@
+version: '2'
+services:
+  rs1:
+    container_name: ${PROJECT_NAME}-rs1
+    image: mongo:3.4
+    volumes:
+      - /data/mongodb/${PROJECT_NAME}//replset/rs1:/data/db
+    command: mongod --dbpath /data/db --replSet myset
+    ports:
+      - 27068:27017
+  rs2:
+    container_name: ${PROJECT_NAME}-rs2
+    image: mongo:3.4
+    volumes:
+      - /data/mongodb/${PROJECT_NAME}/replset/rs2:/data/db
+    command: mongod --dbpath /data/db --replSet myset
+    ports:
+      - 27069:27017
+  rs3:
+    container_name: ${PROJECT_NAME}-rs3
+    image: mongo:3.4
+    volumes:
+      - /data/mongodb/${PROJECT_NAME}/replset/rs3:/data/db
+    command: mongod --dbpath /data/db --replSet myset
+    ports:
+      - 27070:27017
